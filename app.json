@@ -34,22 +34,22 @@
     },
     "BG_HIGH": {
       "description": "Urgent high BG alarm. Default null value implies 260. Must be set in mg/dL. Only used with simple alarms.",
-      "value": "",
+      "value": 250,
       "required": false
     },
     "BG_TARGET_TOP": {
       "description": "Non-urgent high BG alarm, the top of your target range. Default null value implies 180. Must be set in mg/dL. Only used with simple alarms.",
-      "value": "",
+      "value": 152,
       "required": false
     },
     "BG_TARGET_BOTTOM": {
       "description": "Non urgent low BG alarm, the bottom of your target range. Default null value implies 80. Must be set in mg/dL. Only used with simple alarms.",
-      "value": "",
+      "value": 102,
       "required": false
     },
     "BG_LOW": {
       "description": "Urgent Low BG alarm. Default null value implies 55. Must be set in mg/dL. Only used with simple alarms.",
-      "value": "",
+      "value": 80,
       "required": false
     },
     "PUSHOVER_API_TOKEN": {
@@ -84,12 +84,12 @@
     },
     "BRIDGE_USER_NAME": {
       "description": "Share bridge - Your user name for the Share service. ENSURE bridge is in ENABLE if you want to use the share bridge",
-      "value": "",
+      "value": "imoncrief",
       "required": false
     },
     "BRIDGE_PASSWORD": {
       "description": "Share bridge - Your password for the Share service. ENSURE bridge is in ENABLE if you want to use the share bridge",
-      "value": "",
+      "value": "Indybabe05082016",
       "required": false
     },
     "TIME_FORMAT": {
