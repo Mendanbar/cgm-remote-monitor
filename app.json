@@ -84,12 +84,12 @@
     },
     "BRIDGE_USER_NAME": {
       "description": "Share bridge - Your user name for the Share service. ENSURE bridge is in ENABLE if you want to use the share bridge",
-      "value": "imoncrief",
+      "value": "",
       "required": false
     },
     "BRIDGE_PASSWORD": {
       "description": "Share bridge - Your password for the Share service. ENSURE bridge is in ENABLE if you want to use the share bridge",
-      "value": "Indybabe05082016",
+      "value": "",
       "required": false
     },
     "TIME_FORMAT": {
