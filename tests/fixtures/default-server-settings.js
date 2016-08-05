@@ -26,10 +26,10 @@ module.exports = {
     , showPlugins: 'iob'
     , alarmTypes: 'predict'
     , thresholds: {
-      bgHigh: 250
-      , bgTargetTop: 152
-      , bgTargetBottom: 102
-      , bgLow: 80
+      bgHigh: 200
+      , bgTargetTop: 170
+      , bgTargetBottom: 80
+      , bgLow: 55
     }
     , extendedSettings: { }
   }
