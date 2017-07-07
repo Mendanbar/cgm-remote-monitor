@@ -110,6 +110,7 @@
 			var bgTargetTop = window.serverSettings.settings.thresholds.bgTargetTop;
 
 			var alarm = new Audio('audio/beeps.mp3');
+			alarm.loop = true;
 			
 
 			// Convert BG to mmol/L if necessary.
@@ -140,9 +141,11 @@
 			// Insert the BG stale time text.
 			$('#staleTime').text(elapsedMins+' minutes ago');
 
+			alarm.pause();
 			// Threshold background coloring.
 			if (bgNum < bgLow) {
 				$('body').css('background-color', red);
+				alarm.play();
 			}
 			if ((bgLow <= bgNum) && (bgNum < bgTargetBottom)) {
 				$('body').css('background-color', blue);
@@ -170,7 +173,7 @@
 			} else {
 				$('#staleTime').css('display', 'none');
 				$('body').css('color', 'white');
-				alarm.stop();
+				alarm.pause();
 			}
 		}
 
