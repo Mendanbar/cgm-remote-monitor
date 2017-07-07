@@ -86,6 +86,14 @@
 			font-size: 25px;
 			display: none;
 		}
+		#muteText {
+			position: absolute;
+			top: 0;
+			width: 100%;
+			flex-grow: 1;
+			font-size: 6vmin;
+			display: none;
+		}
 	</style>
 </head>
 
@@ -93,6 +101,7 @@
 
 	<main>
 		<button id="muteButton" onclick="muteIt()">Mute Alarm</button>
+		<div id="muteText"></div>
 		<div class="inner">
 			<div id="bgnow"></div>
 			<div id="trend">
@@ -121,7 +130,11 @@
 
 			if(muteTime > 0){
 				muteTime--;
-				console.log("Muted! " + muteTime + " minutes until mute is released.");
+				$('#muteText').css('display', 'block');
+				$('#muteText').text("Muted! " + muteTime + " minutes until mute is released.");
+			}
+			else{
+				$('#muteText').css('display', 'none');
 			}
 
 			var rec = xhr[0];
@@ -218,7 +231,9 @@
 		function muteIt() {
 			
 			muteTime = parseFloat(prompt("How many hours to mute?","0.5"))*60;
-			stopAlarm();
+			if(!muteTime.isNaN()){
+				stopAlarm();
+			}
 		}
 
 		function stopAlarm() {
