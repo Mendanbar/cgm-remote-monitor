@@ -109,6 +109,9 @@
 			var bgTargetBottom = window.serverSettings.settings.thresholds.bgTargetBottom;
 			var bgTargetTop = window.serverSettings.settings.thresholds.bgTargetTop;
 
+			var alarm = new Audio('audio/alarm2.mp3');
+			alarm.play();
+
 			// Convert BG to mmol/L if necessary.
 			if (window.serverSettings.settings.units == 'mmol') {
 				rec.sgv = Nightscout.units.mgdlToMMOL(rec.sgv);
