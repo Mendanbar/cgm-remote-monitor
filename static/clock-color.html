@@ -121,6 +121,7 @@
 
 			if(muteTime > 0){
 				muteTime--;
+				console.log("Muted! " + muteTime + " minutes until mute is released.");
 			}
 
 			var rec = xhr[0];
@@ -193,11 +194,11 @@
 				$('body').css('background-color', 'grey');
 				$('body').css('color', 'black');
 				$('#staleTime').css('display', 'block');
-				startAlarm();
+				//startAlarm();
 			} else {
 				$('#staleTime').css('display', 'none');
 				$('body').css('color', 'white');
-				stopAlarm();
+				//stopAlarm();
 			}
 		}
 
