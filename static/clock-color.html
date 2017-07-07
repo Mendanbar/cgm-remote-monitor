@@ -231,7 +231,7 @@
 		function muteIt() {
 			
 			muteTime = parseFloat(prompt("How many hours to mute?","0.5"))*60;
-			if(!muteTime.isNaN()){
+			if(!isNaN(muteTime)){
 				stopAlarm();
 			}
 		}
