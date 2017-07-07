@@ -246,7 +246,7 @@
 		}
 
 		function startAlarm() { 
-			if ((muteTime === 0) && alarm.paused) {
+			if ((muteTime <= 0) && alarm.paused) {
 				clearMute();
 				$('#muteButton').css('display', 'block'); 
 				alarm.play(); 
