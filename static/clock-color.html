@@ -161,29 +161,7 @@
 			$('#bgnow').text(rec.sgv);
 			
 			// Insert the BG stale time text.
-			$('#staleTime').text(elapsedMins+' minutes ago');
-
-			// Threshold background coloring.
-			if (bgNum < bgLow) {
-				$('body').css('background-color', red);
-				startAlarm();
-			}
-			else{
-				stopAlarm();
-				clearMute();
-			}
-			if ((bgLow <= bgNum) && (bgNum < bgTargetBottom)) {
-				$('body').css('background-color', blue);
-			}
-			if ((bgTargetBottom <= bgNum) && (bgNum < bgTargetTop)) {
-				$('body').css('background-color', green);
-			}
-			if ((bgTargetTop <= bgNum) && (bgNum < bgHigh)) {
-				$('body').css('background-color', yellow);
-			}
-			if (bgNum >= bgHigh) {
-				$('body').css('background-color', red);
-			}
+			$('#staleTime').text(elapsedMins+' minutes ago');			
 			
 			// Time before data considered stale.
 			var staleMinutes = 13;										
@@ -198,8 +176,29 @@
 			} else {
 				$('#staleTime').css('display', 'none');
 				$('body').css('color', 'white');
-				stopAlarm();
-				clearMute();
+
+				// Threshold background coloring.
+				if (bgNum < bgLow) {
+					$('body').css('background-color', red);
+					startAlarm();
+				}
+				else {
+					stopAlarm();
+					clearMute();
+				}
+				if ((bgLow <= bgNum) && (bgNum < bgTargetBottom)) {
+					$('body').css('background-color', blue);
+				}
+				if ((bgTargetBottom <= bgNum) && (bgNum < bgTargetTop)) {
+					$('body').css('background-color', green);
+				}
+				if ((bgTargetTop <= bgNum) && (bgNum < bgHigh)) {
+					$('body').css('background-color', yellow);
+				}
+				if (bgNum >= bgHigh) {
+					$('body').css('background-color', red);
+				}
+
 			}
 		}
 
