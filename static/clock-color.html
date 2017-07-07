@@ -203,10 +203,11 @@
 			}
 		}
 
-		function init ( ) {			
+		function init ( ) {		
+			console.log('init');	
 			alarm.loop = true;
+			stopAlarm();
 			clearMute();
-			console.log('init');
 			query( );
 			setInterval(query, 1 * 60 * 1000);
 		}
@@ -226,7 +227,7 @@
 		}
 
 		function startAlarm() { 
-			if (muteTime < 1) {
+			if ((muteTime < 1) && alarm.paused) {
 				$('#muteButton').css('display', 'block'); 
 				alarm.play(); 
 			} 
