@@ -163,14 +163,14 @@
 			// Insert the BG stale time text.
 			$('#staleTime').text(elapsedMins+' minutes ago');
 
-			startAlarm();
 			// Threshold background coloring.
 			if (bgNum < bgLow) {
 				$('body').css('background-color', red);
-				//startAlarm();
+				startAlarm();
 			}
 			else{
-				//stopAlarm();
+				stopAlarm();
+				clearMute();
 			}
 			if ((bgLow <= bgNum) && (bgNum < bgTargetBottom)) {
 				$('body').css('background-color', blue);
@@ -194,20 +194,25 @@
 				$('body').css('background-color', 'grey');
 				$('body').css('color', 'black');
 				$('#staleTime').css('display', 'block');
-				//startAlarm();
+				startAlarm();
 			} else {
 				$('#staleTime').css('display', 'none');
 				$('body').css('color', 'white');
-				//stopAlarm();
+				stopAlarm();
+				clearMute();
 			}
 		}
 
 		function init ( ) {			
 			alarm.loop = true;
-			muteTime = 0;
+			clearMute();
 			console.log('init');
 			query( );
 			setInterval(query, 1 * 60 * 1000);
+		}
+
+		function clearMute() {
+			muteTime = 0;
 		}
 
 		function muteIt() {
