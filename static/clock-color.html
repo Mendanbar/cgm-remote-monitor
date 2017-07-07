@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="apple-mobile-web-app-capable" content="yes">
-  
+
 	<title>Nightscout</title>
-  
+
 	<link href="/images/round1.png" rel="icon" id="favicon" type="image/png" />
 	<link rel="apple-touch-icon" sizes="57x57" href="/images/apple-touch-icon-57x57.png">
 	<link rel="apple-touch-icon" sizes="60x60" href="/images/apple-touch-icon-60x60.png">
@@ -16,10 +17,9 @@
 	<link rel="apple-touch-icon" sizes="144x144" href="/images/apple-touch-icon-144x144.png">
 	<link rel="apple-touch-icon" sizes="152x152" href="/images/apple-touch-icon-152x152.png">
 	<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-180x180.png">
-  
+
 	<style type="text/css">
 		@import url("//fonts.googleapis.com/css?family=Open+Sans:700");
-  
 		body {
 			text-align: center;
 			margin: 0 0;
@@ -29,6 +29,7 @@
 			color: white;
 			background-color: white;
 		}
+		
 		main {
 			display: -webkit-box;
 			display: -ms-flexbox;
@@ -40,14 +41,17 @@
 			align-items: center;
 			height: 100vh;
 		}
+		
 		.inner {
 			width: 100%;
 			-webkit-transform: translateY(-5%);
 		}
+		
 		#bgnow {
 			font-weight: 700;
 			font-size: 40vmin;
 		}
+		
 		#trend {
 			display: -ms-flexbox;
 			display: -webkit-flex;
@@ -58,16 +62,28 @@
 			justify-content: center;
 			flex-direction: column;
 		}
+		
 		#arrowDiv {
 			flex-grow: 1;
 			text-align: center;
 		}
+		
 		img#arrow {
 			height: 30vmin;
 		}
+		
 		#staleTime {
 			flex-grow: 1;
 			font-size: 6vmin;
+			display: none;
+		}
+		
+		#muteButton {
+			position: absolute;
+			top: 0;
+			width: 100%;
+			height: 60px;
+			font-size: 25px;
 			display: none;
 		}
 	</style>
@@ -76,20 +92,24 @@
 <body>
 
 	<main>
+		<button id="muteButton" onclick="muteIt()">Mute Alarm for 30 Min</button>
 		<div class="inner">
 			<div id="bgnow"></div>
 			<div id="trend">
-				<div id="arrowDiv"><img id="arrow" src=""/></div>
+				<div id="arrowDiv"><img id="arrow" src="" /></div>
 				<div id="staleTime"></div>
 			</div>
 		</div>
 	</main>
-  
+
 	<script src="/bower_components/jquery/dist/jquery.min.js"></script>
 	<script src="/api/v1/status.js"></script>
 	<script src="/public/js/bundle.js"></script>
-  
+
 	<script type="text/javascript">
+
+	var alarm = new Audio('audio/beeps.mp3');
+	var muteTime;
 	
 		function query ( ) {
 			console.log('query');
@@ -98,7 +118,11 @@
 
 		function render (xhr) {
 			console.log('xhr', xhr);
-			
+
+			if(muteTime > 0){
+				muteTime--;
+			}
+
 			var rec = xhr[0];
 			var last = new Date(rec.date);
 			var now = new Date( );
@@ -107,10 +131,7 @@
 			var bgHigh = window.serverSettings.settings.thresholds.bgHigh;
 			var bgLow = window.serverSettings.settings.thresholds.bgLow;
 			var bgTargetBottom = window.serverSettings.settings.thresholds.bgTargetBottom;
-			var bgTargetTop = window.serverSettings.settings.thresholds.bgTargetTop;
-
-			var alarm = new Audio('audio/beeps.mp3');
-			alarm.loop = true;
+			var bgTargetTop = window.serverSettings.settings.thresholds.bgTargetTop;		
 			
 
 			// Convert BG to mmol/L if necessary.
@@ -141,11 +162,14 @@
 			// Insert the BG stale time text.
 			$('#staleTime').text(elapsedMins+' minutes ago');
 
-			alarm.pause();
+			startAlarm();
 			// Threshold background coloring.
 			if (bgNum < bgLow) {
 				$('body').css('background-color', red);
-				alarm.play();
+				//startAlarm();
+			}
+			else{
+				//stopAlarm();
 			}
 			if ((bgLow <= bgNum) && (bgNum < bgTargetBottom)) {
 				$('body').css('background-color', blue);
@@ -169,21 +193,41 @@
 				$('body').css('background-color', 'grey');
 				$('body').css('color', 'black');
 				$('#staleTime').css('display', 'block');
-				alarm.play();
+				startAlarm();
 			} else {
 				$('#staleTime').css('display', 'none');
 				$('body').css('color', 'white');
-				alarm.pause();
+				stopAlarm();
 			}
 		}
 
-		function init ( ) {
+		function init ( ) {			
+			alarm.loop = true;
+			muteTime = 0;
 			console.log('init');
 			query( );
 			setInterval(query, 1 * 60 * 1000);
 		}
 
+		function muteIt() {
+			muteTime = 30;
+			stopAlarm();
+		}
+
+		function stopAlarm() {
+			$('#muteButton').css('display', 'none');
+			alarm.pause();
+		}
+
+		function startAlarm() { 
+			if (muteTime < 1) {
+				$('#muteButton').css('display', 'block'); 
+				alarm.play(); 
+			} 
+		}
+
 		init( );
 	</script>
 </body>
+
 </html>
