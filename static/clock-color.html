@@ -128,14 +128,6 @@
 		function render (xhr) {
 			console.log('xhr', xhr);
 
-			if(muteTime > 0){
-				muteTime--;
-				displayMuteText(muteTime);			
-			}
-			else{
-				clearMute();
-			}
-
 			var rec = xhr[0];
 			var last = new Date(rec.date);
 			var now = new Date( );
@@ -211,6 +203,14 @@
 					$('body').css('background-color', red);
 				}
 
+			}
+
+			if(muteTime > 0){
+				muteTime--;
+				displayMuteText(muteTime);			
+			}
+			else{
+				clearMute();
 			}
 		}
 
