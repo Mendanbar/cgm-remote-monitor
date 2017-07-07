@@ -92,7 +92,7 @@
 <body>
 
 	<main>
-		<button id="muteButton" onclick="muteIt()">Mute Alarm for 30 Min</button>
+		<button id="muteButton" onclick="muteIt()">Mute Alarm</button>
 		<div class="inner">
 			<div id="bgnow"></div>
 			<div id="trend">
@@ -216,7 +216,8 @@
 		}
 
 		function muteIt() {
-			muteTime = 30;
+			
+			muteTime = parseFloat(prompt("How many hours to mute?","0.5"))*60;
 			stopAlarm();
 		}
 
