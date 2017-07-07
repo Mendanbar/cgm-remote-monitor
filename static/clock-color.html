@@ -128,6 +128,11 @@
 		function render (xhr) {
 			console.log('xhr', xhr);
 
+			if(muteTime > 0){
+				muteTime--;
+				displayMuteText(muteTime);			
+			}
+
 			var rec = xhr[0];
 			var last = new Date(rec.date);
 			var now = new Date( );
@@ -187,8 +192,7 @@
 					startAlarm();
 				}
 				else {
-					stopAlarm();
-					clearMute();
+					clearAlarm();
 				}
 				if ((bgLow <= bgNum) && (bgNum < bgTargetBottom)) {
 					$('body').css('background-color', blue);
@@ -204,21 +208,17 @@
 				}
 
 			}
+		}
 
-			if(muteTime > 0){
-				muteTime--;
-				displayMuteText(muteTime);			
-			}
-			else{
-				clearMute();
-			}
+		function clearAlarm(){
+			silenceAlarm();
+			clearMute();
 		}
 
 		function init ( ) {		
 			console.log('init');	
 			alarm.loop = true;
-			stopAlarm();
-			clearMute();
+			clearAlarm();
 			query( );
 			setInterval(query, 1 * 60 * 1000);
 		}
@@ -232,7 +232,7 @@
 			
 			muteTime = Math.round(parseFloat(prompt("How many hours to mute?","0.5"))*60);
 			if(!isNaN(muteTime)){
-				stopAlarm();
+				silenceAlarm();
 				displayMuteText(muteTime);
 			}
 			else{
@@ -240,13 +240,14 @@
 			}
 		}
 
-		function stopAlarm() {
+		function silenceAlarm() {
 			$('#muteButton').css('display', 'none');
 			alarm.pause();
 		}
 
 		function startAlarm() { 
 			if ((muteTime === 0) && alarm.paused) {
+				clearMute();
 				$('#muteButton').css('display', 'block'); 
 				alarm.play(); 
 			} 
@@ -260,8 +261,11 @@
 				else if (muteMinutes >1){
 					$('#muteText').text("Muted for " + muteMinutes + " more minutes.");
 				}
-				else {
+				else if (muteMinutes > 0){
 					$('#muteText').text("Muted for less than a minute.");
+				}
+				else{
+					$('#muteText').css('display', 'none');
 				}
 		}
 
