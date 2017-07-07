@@ -130,16 +130,7 @@
 
 			if(muteTime > 0){
 				muteTime--;
-				$('#muteText').css('display', 'block');
-				if (muteTime >60){
-					$('#muteText').text("Muted for " + muteTime/60 + " more hours.");
-				}
-				else if (muteTime >1){
-					$('#muteText').text("Muted for " + muteTime + " more minutes.");
-				}
-				else {
-					$('#muteText').text("Muted for less than a minute.");
-				}				
+				displayMuteText(muteTime);			
 			}
 			else{
 				clearMute();
@@ -239,9 +230,10 @@
 
 		function muteIt() {
 			
-			muteTime = parseFloat(prompt("How many hours to mute?","0.5"))*60;
+			muteTime = Math.round(parseFloat(prompt("How many hours to mute?","0.5"))*60);
 			if(!isNaN(muteTime)){
 				stopAlarm();
+				displayMuteText(muteTime);
 			}
 			else{
 				clearMute();
@@ -258,6 +250,19 @@
 				$('#muteButton').css('display', 'block'); 
 				alarm.play(); 
 			} 
+		}
+
+		function displayMuteText(muteMinutes){
+			$('#muteText').css('display', 'block');
+				if (muteMinutes >90){
+					$('#muteText').text("Muted for ~" + Math.round(muteMinutes/60) + " more hours.");
+				}
+				else if (muteMinutes >1){
+					$('#muteText').text("Muted for " + muteMinutes + " more minutes.");
+				}
+				else {
+					$('#muteText').text("Muted for less than a minute.");
+				}
 		}
 
 		init( );
