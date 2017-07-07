@@ -131,10 +131,18 @@
 			if(muteTime > 0){
 				muteTime--;
 				$('#muteText').css('display', 'block');
-				$('#muteText').text("Muted! " + muteTime + " minutes until mute is released.");
+				if (muteTime >60){
+					$('#muteText').text("Muted for " + muteTime/60 + " more hours.");
+				}
+				else if (muteTime >1){
+					$('#muteText').text("Muted for " + muteTime + " more minutes.");
+				}
+				else {
+					$('#muteText').text("Muted for less than a minute.");
+				}				
 			}
 			else{
-				$('#muteText').css('display', 'none');
+				clearMute();
 			}
 
 			var rec = xhr[0];
@@ -226,6 +234,7 @@
 
 		function clearMute() {
 			muteTime = 0;
+			$('#muteText').css('display', 'none');
 		}
 
 		function muteIt() {
@@ -235,7 +244,7 @@
 				stopAlarm();
 			}
 			else{
-				muteTime = 0;
+				clearMute();
 			}
 		}
 
