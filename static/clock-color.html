@@ -109,8 +109,8 @@
 			var bgTargetBottom = window.serverSettings.settings.thresholds.bgTargetBottom;
 			var bgTargetTop = window.serverSettings.settings.thresholds.bgTargetTop;
 
-			var alarm = new Audio('audio/alarm2.mp3');
-			alarm.play();
+			var alarm = new Audio('audio/beeps.mp3');
+			
 
 			// Convert BG to mmol/L if necessary.
 			if (window.serverSettings.settings.units == 'mmol') {
@@ -166,9 +166,11 @@
 				$('body').css('background-color', 'grey');
 				$('body').css('color', 'black');
 				$('#staleTime').css('display', 'block');
+				alarm.play();
 			} else {
 				$('#staleTime').css('display', 'none');
 				$('body').css('color', 'white');
+				alarm.stop();
 			}
 		}
 
