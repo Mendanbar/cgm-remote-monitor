@@ -111,14 +111,29 @@
 		input[type=range]{
 			-webkit-appearance: none;
 		}
+		input[type=range]::-webkit-slider-runnable-track {
+			height: 5px;
+			background: #ddd;
+			border: none;
+			border-radius: 3px;
+		}
+
 		input[type=range]::-webkit-slider-thumb {
 			-webkit-appearance: none;
-			background-color: #ecf0f1;
-			border: 1px solid #bdc3c7;
-			width: 20px;
-			height: 20px;
-			border-radius: 10px;
-			cursor: pointer;
+			border: none;
+			height: 24px;
+			width: 24px;
+			border-radius: 50%;
+			background: rgba(78,143,207,1);
+			margin-top: -4px;
+		}
+
+		input[type=range]:focus {
+			outline: none;
+		}
+
+		input[type=range]:focus::-webkit-slider-runnable-track {
+			background: #ccc;
 		}
 	</style>
 </head>
