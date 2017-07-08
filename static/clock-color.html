@@ -77,16 +77,6 @@
 			font-size: 6vmin;
 			display: none;
 		}
-		
-		#muteButton {
-			position: absolute;
-			top: 0;
-			width: 100%;
-			height: 12vh;
-			font-size: 8vmin;
-			display: none;
-			z-index: 1;
-		}
 		#muteText {
 			position: absolute;
 			top: 0;
@@ -112,7 +102,7 @@
 			font-size: 6vmin;
 			line-height: 7vh;
 		}
-		#doitButton{
+		#muteButton{
 			width: 85vw;
 			font-size: 6vmin;
 			height: 7vh;
@@ -123,8 +113,7 @@
 
 <body>
 
-	<main>
-		<button id="muteButton" onclick="muteIt()">Mute Alarm</button>
+	<main>		
 		<div id="muteText"></div>
 		<div class="inner">
 			<div id="bgnow"></div>
@@ -136,7 +125,7 @@
 		<div id="overlay">
 			<div id="value">15 minutes</div>
 			<input id="slider" type="range" min="0" max="100" value="0" />	
-			<button id="doitButton">Silence</button>		
+			<button id="muteButton" onclick="muteIt()">Mute Alarm</button>		
 		</div>
 	</main>
 
@@ -146,7 +135,7 @@
 
 	<script type="text/javascript">
 
-	function LogSlider(options) {
+		function LogSlider(options) {
 			options = options || {};
 			this.minpos = options.minpos || 0;
 			this.maxpos = options.maxpos || 100;
@@ -298,7 +287,8 @@
 
 		function muteIt() {
 			
-			muteTime = Math.round(parseFloat(prompt("How many hours to mute?","0.5"))*60);
+			//muteTime = Math.round(parseFloat(prompt("How many hours to mute?","0.5"))*60);
+			muteTime = logsl.value($("#slider").val());
 			if(!isNaN(muteTime)){
 				silenceAlarm();
 				displayMuteText(muteTime);
@@ -309,14 +299,14 @@
 		}
 
 		function silenceAlarm() {
-			$('#muteButton').css('display', 'none');
+			$('#overlay').css('display', 'none');
 			alarm.pause();
 		}
 
 		function startAlarm() { 
 			if ((muteTime <= 0) && alarm.paused) {
 				clearMute();
-				$('#muteButton').css('display', 'block'); 
+				$('#overlay').css('display', 'block'); 
 				alarm.play(); 
 			} 
 		}
