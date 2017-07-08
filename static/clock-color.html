@@ -287,8 +287,7 @@
 
 		function muteIt() {
 			
-			//muteTime = Math.round(parseFloat(prompt("How many hours to mute?","0.5"))*60);
-			muteTime = logsl.value($("#slider").val());
+			muteTime = Math.round(logsl.value($("#slider").val()));
 			if(!isNaN(muteTime)){
 				silenceAlarm();
 				displayMuteText(muteTime);
