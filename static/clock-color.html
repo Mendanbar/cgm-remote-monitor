@@ -155,9 +155,17 @@
 
 		var logsl = new LogSlider({maxpos: 100, minval: 15, maxval: 1440});
 
-		$('#slider').on('change', function () {
+		$('#slider').on('input', function () {
 			var val = logsl.value(+$(this).val());
-			$('#value').text(val.toFixed(0));
+
+			var textValue = "";
+			if(val<60){
+				textValue = val.toFixed(0) + " minutes";
+			}
+			else{
+				textValue = (val/60).toFixed(0) + " hours"
+			}
+			$('#value').text(textValue);
 		});
 	
 		function query ( ) {
