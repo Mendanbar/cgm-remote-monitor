@@ -100,20 +100,23 @@
 			position: absolute;
 			width: 100%;
 			top: 0;
-			height: 20vh;
 			background: rgba(0,0,0,0.7);
+			z-index: 5;
+			display: none;
 		}
 		#slider{
 			width: 85vw;
+    		margin: 1vh 0;
 		}
 		#value{
 			font-size: 6vmin;
 			line-height: 7vh;
 		}
 		#doitButton{
-			width: 100%;
+			width: 85vw;
 			font-size: 6vmin;
 			height: 7vh;
+			margin: 1vh 0;
 		}
 	</style>
 </head>
@@ -131,8 +134,8 @@
 			</div>
 		</div>
 		<div id="overlay">
-			<div id="value"></div>
-			<input id="slider" type="range" min="0" max="100" />	
+			<div id="value">15 minutes</div>
+			<input id="slider" type="range" min="0" max="100" value="0" />	
 			<button id="doitButton">Silence</button>		
 		</div>
 	</main>
