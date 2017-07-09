@@ -191,14 +191,11 @@
 			var val = logsl.value(+$(this).val());
 
 			var textValue = "";
-			if(val<60){
-				textValue = val.toFixed(0) + " minutes";
-			}
-			else if(val<90){
-				textValue = (val/60).toFixed(0) + " hour";
+			if(val>90){
+				textValue = Math.round(val/60) + " hours";
 			}
 			else{
-				textValue = (val/60).toFixed(0) + " hours";
+				textValue = Math.round(val) + " minutes";
 			}
 			$('#value').text(textValue);
 		});
