@@ -253,9 +253,10 @@
 			$('#staleTime').text(elapsedMins+' minutes ago');			
 			
 			// Time before data considered stale.
-			var staleMinutes = 13;										
+			var staleMinutes = 13;
+			var staleMinutesForAlarm = 30;										
 			var threshold = 1000 * 60 * staleMinutes;	
-			var alarm_threshold = 1000 * 60 * 30;		
+			var alarm_threshold = 1000 * 60 * staleMinutesForAlarm;		
 			
 			// Restyle body bg, and make the "x minutes ago" visible too.
 			if (now - last > threshold) {
