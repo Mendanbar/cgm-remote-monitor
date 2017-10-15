@@ -29,7 +29,7 @@
 			color: white;
 			background-color: white;
 		}
-		
+
 		main {
 			display: -webkit-box;
 			display: -ms-flexbox;
@@ -41,17 +41,23 @@
 			align-items: center;
 			height: 100vh;
 		}
-		
+
 		.inner {
 			width: 100%;
 			-webkit-transform: translateY(-5%);
 		}
-		
+
 		#bgnow {
 			font-weight: 700;
 			font-size: 40vmin;
 		}
-		
+
+		.bgdelta {
+			font-family: 'Open Sans';
+			font-weight: 700;
+			font-size: 15vmin;
+		}
+
 		#trend {
 			display: -ms-flexbox;
 			display: -webkit-flex;
@@ -62,21 +68,22 @@
 			justify-content: center;
 			flex-direction: column;
 		}
-		
+
 		#arrowDiv {
 			flex-grow: 1;
 			text-align: center;
 		}
-		
+
 		img#arrow {
 			height: 30vmin;
 		}
-		
+
 		#staleTime {
 			flex-grow: 1;
 			font-size: 6vmin;
 			display: none;
 		}
+
 		#muteText {
 			position: absolute;
 			top: 0;
@@ -86,39 +93,46 @@
 			display: none;
 			line-height: 12vh;
 		}
+
 		#overlay {
 			position: absolute;
 			width: 100%;
 			top: 0;
-			background: rgba(0,0,0,0.7);
+			background: rgba(0, 0, 0, 0.7);
 			z-index: 5;
 			display: none;
 		}
-		#slider{
+
+		#slider {
 			width: 85vw;
-    		margin: 1vh 0;
+			margin: 1vh 0;
 		}
-		#value{
+
+		#value {
 			font-size: 6vmin;
 			line-height: 7vh;
 		}
-		#muteButton{
+
+		#muteButton {
 			width: 85vw;
 			font-size: 6vmin;
 			height: 7vh;
 			margin: 1vh 0;
 		}
-		input[type=range]{
+
+		input[type=range] {
 			-webkit-appearance: none;
 			height: 6vh;
-    		background: transparent;
+			background: transparent;
 		}
+
 		input[type=range]::-webkit-slider-runnable-track {
 			height: 7px;
 			background: #ddd;
 			border: none;
 			border-radius: 3px;
 		}
+
 		input[type=range]::-webkit-slider-thumb {
 			-webkit-appearance: none;
 			border: none;
@@ -128,33 +142,37 @@
 			background: rgb(144, 144, 144);
 			margin-top: -11px;
 		}
+
 		input[type=range]:focus {
 			outline: none;
 		}
+
 		input[type=range]:focus::-webkit-slider-runnable-track {
 			background: #ccc;
 		}
+
 		svg {
-  			fill: currentColor;
+			fill: currentColor;
 		}
 	</style>
 </head>
 
 <body>
 
-	<main>		
+	<main>
 		<div id="muteText"></div>
 		<div class="inner">
 			<div id="bgnow"></div>
 			<div id="trend">
 				<div id="arrowDiv"><img id="arrow" src="" /></div>
+				<div class="bgdelta"></div>
 				<div id="staleTime"></div>
 			</div>
 		</div>
 		<div id="overlay">
 			<div id="value">15 minutes</div>
-			<input id="slider" type="range" min="0" max="100" value="0" />	
-			<button id="muteButton" onclick="muteIt()">Mute Alarm</button>		
+			<input id="slider" type="range" min="0" max="100" value="0" />
+			<button id="muteButton" onclick="muteIt()">Mute Alarm</button>
 		</div>
 	</main>
 
@@ -163,7 +181,6 @@
 	<script src="/public/js/bundle.js"></script>
 
 	<script type="text/javascript">
-
 		function LogSlider(options) {
 			options = options || {};
 			this.minpos = options.minpos || 0;
@@ -188,44 +205,45 @@
 		var alarm = new Audio('audio/beeps.mp3');
 		var muteTime;
 
-		var logsl = new LogSlider({maxpos: 100, minval: 15, maxval: 1440});
+		var logsl = new LogSlider({ maxpos: 100, minval: 15, maxval: 1440 });
 
 		$('#slider').on('input', function () {
 			var val = logsl.value(+$(this).val());
 
 			var textValue = "";
-			if(val>90){
-				textValue = Math.round(val/60) + " hours";
+			if (val > 90) {
+				textValue = Math.round(val / 60) + " hours";
 			}
-			else{
+			else {
 				textValue = Math.round(val) + " minutes";
 			}
 			$('#value').text(textValue);
 		});
-	
-		function query ( ) {
+
+		function query() {
 			console.log('query');
-			$.ajax('/api/v1/entries/current.json', { success: render });
+			//$.ajax('/api/v1/entries/current.json', { success: render });
+			$.ajax('/pebble', { success: render });
 		}
 
-		function render (xhr) {
+		function render(xhr) {
 			console.log('xhr', xhr);
 
-			if(muteTime > 0){
+			if (muteTime > 0) {
 				muteTime--;
-				displayMuteText(muteTime);			
+				displayMuteText(muteTime);
 			}
 
-			var rec = xhr[0];
+			var rec = xhr.bgs[0];
 			var last = new Date(rec.date);
-			var now = new Date( );
+			var now = new Date();
 			var elapsedMins = Math.round(((now - last) / 1000) / 60);
-			
+
 			var bgHigh = window.serverSettings.settings.thresholds.bgHigh;
 			var bgLow = window.serverSettings.settings.thresholds.bgLow;
 			var bgTargetBottom = window.serverSettings.settings.thresholds.bgTargetBottom;
-			var bgTargetTop = window.serverSettings.settings.thresholds.bgTargetTop;		
-			
+			var bgTargetTop = window.serverSettings.settings.thresholds.bgTargetTop;
+
 
 			// Convert BG to mmol/L if necessary.
 			if (window.serverSettings.settings.units == 'mmol') {
@@ -235,8 +253,9 @@
 				bgTargetBottom = Nightscout.units.mgdlToMMOL(bgTargetBottom);
 				bgTargetTop = Nightscout.units.mgdlToMMOL(bgTargetTop);
 			}
-			
+
 			var bgNum = parseFloat(rec.sgv);
+			var bgDelta = parseFloat(rec.bgdelta);
 
 			// These are the particular shades of red, yellow, green, and blue.
 			var red = 'rgba(213,9,21,1)';
@@ -245,28 +264,35 @@
 			var blue = 'rgba(78,143,207,1)';
 
 			var direction = rec.direction;
-			
+
 			// Insert the trend arrow.
-			$('#arrow').attr('src', 'images/'+direction+'.svg');
+			$('#arrow').attr('src', 'images/' + direction + '.svg');
 
 			// Insert the BG value text.
 			$('#bgnow').text(rec.sgv);
-			
+
+			// Insert the BG Delta number, add a "+" if it is positive
+			if (bgDelta > 0) {
+				$('.bgdelta').text('+' + rec.bgdelta);
+			} else {
+				$('.bgdelta').text(rec.bgdelta);
+			}
+
 			// Insert the BG stale time text.
-			$('#staleTime').text(elapsedMins+' minutes ago');			
-			
+			$('#staleTime').text(elapsedMins + ' minutes ago');
+
 			// Time before data considered stale.
 			var staleMinutes = 13;
-			var staleMinutesForAlarm = 30;										
-			var threshold = 1000 * 60 * staleMinutes;	
-			var alarm_threshold = 1000 * 60 * staleMinutesForAlarm;		
-			
+			var staleMinutesForAlarm = 30;
+			var threshold = 1000 * 60 * staleMinutes;
+			var alarm_threshold = 1000 * 60 * staleMinutesForAlarm;
+
 			// Restyle body bg, and make the "x minutes ago" visible too.
 			if (now - last > threshold) {
 				$('body').css('background-color', 'grey');
 				$('body').css('color', 'black');
 				$('#staleTime').css('display', 'block');
-				if (now - last > alarm_threshold){
+				if (now - last > alarm_threshold) {
 					startAlarm();
 				}
 			} else {
@@ -297,16 +323,16 @@
 			}
 		}
 
-		function clearAlarm(){
+		function clearAlarm() {
 			silenceAlarm();
 			clearMute();
 		}
 
-		function init ( ) {		
-			console.log('init');	
+		function init() {
+			console.log('init');
 			alarm.loop = true;
 			clearAlarm();
-			query( );
+			query();
 			setInterval(query, 1 * 60 * 1000);
 		}
 
@@ -316,13 +342,13 @@
 		}
 
 		function muteIt() {
-			
+
 			muteTime = Math.round(logsl.value($("#slider").val()));
-			if(!isNaN(muteTime)){
+			if (!isNaN(muteTime)) {
 				silenceAlarm();
 				displayMuteText(muteTime);
 			}
-			else{
+			else {
 				clearMute();
 			}
 		}
@@ -332,7 +358,7 @@
 			alarm.pause();
 		}
 
-		function startAlarm() { 
+		function startAlarm() {
 			if (!quietHours()) {
 				if ((muteTime <= 0) && alarm.paused) {
 					clearMute();
@@ -342,20 +368,20 @@
 			}
 		}
 
-		function displayMuteText(muteMinutes){
+		function displayMuteText(muteMinutes) {
 			$('#muteText').css('display', 'block');
-				if (muteMinutes >90){
-					$('#muteText').text("Muted for ~" + Math.round(muteMinutes/60) + " more hours.");
-				}
-				else if (muteMinutes >1){
-					$('#muteText').text("Muted for " + muteMinutes + " more minutes.");
-				}
-				else if (muteMinutes > 0){
-					$('#muteText').text("Muted for less than a minute.");
-				}
-				else{
-					$('#muteText').css('display', 'none');
-				}
+			if (muteMinutes > 90) {
+				$('#muteText').text("Muted for ~" + Math.round(muteMinutes / 60) + " more hours.");
+			}
+			else if (muteMinutes > 1) {
+				$('#muteText').text("Muted for " + muteMinutes + " more minutes.");
+			}
+			else if (muteMinutes > 0) {
+				$('#muteText').text("Muted for less than a minute.");
+			}
+			else {
+				$('#muteText').css('display', 'none');
+			}
 		}
 		function quietHours() {
 			var startTime = '8:00 AM';
@@ -383,7 +409,7 @@
 			return date;
 		}
 
-		init( );
+		init();
 	</script>
 </body>
 
