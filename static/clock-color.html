@@ -154,6 +154,32 @@
 		svg {
 			fill: currentColor;
 		}
+
+		@media all and (orientation: landscape) {
+			main {
+				display: flex;
+				height: 100vh;
+				align-items: center;
+			}
+			#bgnow {
+				flex-flow: row wrap;
+				flex: 1 1 auto;
+			}
+			.wrapper {
+				flex-flow: column nowrap;
+				justify-content: stretch;
+				align-items: stretch;
+				flex: 1 1 auto;
+			}
+			#arrow {
+				text-align: center;
+			}
+			.bgdelta {
+				text-align: center;
+			}
+		}
+
+		@media all and (orientation: portrait) {}
 	</style>
 </head>
 
@@ -164,8 +190,8 @@
 		<div class="inner">
 			<div id="bgnow"></div>
 			<div id="trend">
-				<div id="arrowDiv"><img id="arrow" src="" /></div>
 				<div class="bgdelta"></div>
+				<div id="arrowDiv"><img id="arrow" src="" /></div>
 				<div id="staleTime"></div>
 			</div>
 		</div>
