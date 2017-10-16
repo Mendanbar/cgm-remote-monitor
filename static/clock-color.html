@@ -55,7 +55,7 @@
 		.bgdelta {
 			font-family: 'Open Sans';
 			font-weight: 700;
-			font-size: 15vmin;
+			font-size: 20vmin;
 		}
 
 		#trend {
@@ -67,6 +67,7 @@
 			align-items: center;
 			justify-content: center;
 			flex-direction: column;
+			margin-top: -10vmin;
 		}
 
 		#arrowDiv {
@@ -388,7 +389,8 @@
 			if (!quietHours()) {
 				if ((muteTime <= 0) && alarm.paused) {
 					clearMute();
-					$('#overlay').css('display', 'block');
+					//comment out mute functionality until I can find a way to make it less annoying and more useful.. maybe a chirp every 15 min as a reminder?
+					//$('#overlay').css('display', 'block');
 					alarm.play();
 				}
 			}
